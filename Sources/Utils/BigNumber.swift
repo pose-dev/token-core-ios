@@ -31,9 +31,10 @@ public struct BigNumber {
         return bytes
     }
   
-    public func hexString() -> String {
-      return Hex.hex(from: serialize())
-    }
+  public func hexString() -> String {
+    return Hex.hex(from: serialize())
+  }
+
 
     public var description: String {
         return value.description

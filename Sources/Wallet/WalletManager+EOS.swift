@@ -109,5 +109,5 @@ public extension WalletManager {
     
     return try EOSKey.ecRecover(data: hashedData, signature: sig)
   }
-  
+
 }

@@ -39,7 +39,6 @@ class EOSKey {
     return btcKey.eosCompactSignature(forHash: data)
   }
   
-  
   public static func ecRecover(data: Data, signature: Data) throws -> String {
     guard let key = BTCKey.eosEcRecover(signature, forHash: data) else {
       throw "Not found a workable private key"

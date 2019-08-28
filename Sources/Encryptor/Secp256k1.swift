@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import CoreBitcoin.libscrypt
-import secp256k1
+import libsecp256k1
 
 extension Encryptor {
   struct SignResult {
@@ -95,16 +94,17 @@ extension Encryptor {
       return data.toHexString()
     }
     
+    
     /// Recover public key from signature and message.
     /// - Parameter signature: Signature.
     /// - Parameter message: Raw message before signing.
     /// - Parameter recid: recid.
     /// - Returns: Recoverd public key.
     func eosRecover(signature: Data, message: Data, recid: Int32) -> String? {
-//      guard let signBytes = signature.tk_dataFromHexString()?.bytes,
-//        let messageBytes = message.tk_dataFromHexString()?.bytes else {
-//          return nil
-//      }
+      //      guard let signBytes = signature.tk_dataFromHexString()?.bytes,
+      //        let messageBytes = message.tk_dataFromHexString()?.bytes else {
+      //          return nil
+      //      }
       let signBytes = signature.bytes
       let messageBytes = message.bytes
       
@@ -136,7 +136,7 @@ extension Encryptor {
       
       return data.toHexString()
     }
-    
+
 
     /// Verify a key.
     /// - Parameter key: Key in hex format.

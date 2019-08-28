@@ -136,7 +136,7 @@ public struct WalletManager {
     walletID: String,
     to: String,
     amount: Int64,
-    fee: Int64,
+    feeRate: Int64,
     password: String,
     outputs: [[String: Any]],
     changeIdx: Int,
@@ -153,6 +153,8 @@ public struct WalletManager {
     
     var unspents = [UTXO]()
     var unspentAmount:Int64 = 0
+    var fee : Int64 = 0
+    var inputNum = 0
     for output in outputs {
       let utxo: UTXO?
       // result form api.blockchain.info contains 'tx_hash_big_endian'
@@ -167,8 +169,11 @@ public struct WalletManager {
       
       unspents.append(unspent)
       unspentAmount += unspent.amount
-      
-      if unspentAmount >= (amount + fee) {
+      inputNum += 1
+      // 148 x inputNum + 34 x outputNum + 10 * rate
+      fee = Int64(148 * inputNum + 34 * 2 + 10) * feeRate
+      //changeAmount must more than the 2730
+      if unspentAmount > (amount + fee + 2730) {
         break
       }
     }
@@ -199,7 +204,8 @@ public struct WalletManager {
       }
     }
 
-    let changeAddress = changeKey.address(on: isTestnet ? .testnet : .mainnet, segWit: segWit)
+//     let changeAddress = changeKey.address(on: isTestnet ? .testnet : .mainnet, segWit: segWit)
+    let changeAddress = BTCAddress(string: wallet.address)!
     let signer = try BTCTransactionSigner(utxos: unspents, keys: privateKeys, amount: amount, fee: fee, toAddress: toAddress, changeAddress: changeAddress)
 
     if segWit.isSegWit {

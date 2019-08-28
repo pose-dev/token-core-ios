@@ -54,6 +54,10 @@ public final class Hex {
     if hasPrefix(string) {
       return isHex(string.tk_substring(from: 2))
     }
+    
+    if string.count % 2 != 0 {
+      return false
+    }
 
     if string.count % 2 != 0 {
       return false
